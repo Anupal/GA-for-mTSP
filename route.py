@@ -6,42 +6,43 @@ class Route:
     fitness = 0
     distance = 0
 
-    def __init__ (self):
-        for i in range(RouteManager.numberOfDustbins()):
-            route.append(None)
+    def __init__ (self, route = None):
 
-    def __init__ (self, route):
-        this.route = route
+        if route == None:
+            for i in range(20):
+                self.route.append(None)
+        else:
+            self.route = route
 
     def generateIndividual (self):
-        for dindex in range(RouteManager.numberOfDustbins()):
-            setDustbin (dindex, RouteManager.getDustbin(dindex))
+        for dindex in range(20):
+            self.setDustbin(dindex, RouteManager.getDustbin(dindex))
 
-        random.shuffle(route)
+        random.shuffle(self.route)
 
     def getDustbin(self, index):
-        return tour[index]
+        return self.route[index]
 
     def setDustbin(self, index, db):
-        tour.insert(index, db)
-        fitness = 0
-        distance = 0
+        self.route.insert(index, db)
+        self.fitness = 0
+        self.distance = 0
 
     def getFitness(self):
-        if fitness == 0:
-            fitness = 1/getDistance()
+        if self.fitness == 0:
+            fitness = 1/self.getDistance()
 
         return fitness
 
     def getDistance(self):
-        if distance == 0:
+        if self.distance == 0:
             routeDistance = 0
 
-            for dindex in range(routeSize()):
-                fromDustbin = getDustbin(dindex)
+            for dindex in range(self.routeSize()):
+                fromDustbin = self.getDustbin(dindex)
 
-                if dindex+1 < routeSize():
-                    destinationDustbin = getDustbin(dindex + 1)
+                if dindex+1 < self.routeSize():
+                    destinationDustbin = self.getDustbin(dindex + 1)
 
                 else:
                     destinationDustbin = getDustbin(0)
@@ -53,7 +54,7 @@ class Route:
         return routeDistance
 
     def routeSize(self):
-        size = len(route)
+        size = len(self.route)
         return size
 
     def containsDustbin(self, db):

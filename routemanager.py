@@ -3,11 +3,14 @@ from dustbin import *
 class RouteManager:
     destinationDustbins = []
 
-    def addDustbin (self, db):
-        destinationDustbins.append(db)
+    @classmethod
+    def addDustbin (cls, db):
+        cls.destinationDustbins.append(db)
 
-    def getDustbin (self, index):
-        return destinationDustbins[index]
+    @classmethod
+    def getDustbin (cls, index):
+        return cls.destinationDustbins[index]
 
-    def numberOfDustbins():
-        return len(destinationDustbins)
+    @classmethod
+    def numberOfDustbins(cls, self):
+        return len(cls.destinationDustbins)
