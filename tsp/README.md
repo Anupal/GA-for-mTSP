@@ -1,1 +1,2 @@
-# GA-for-mTSP
+# Genetic Algorithm to solve Travelling Salesman Problem
+
