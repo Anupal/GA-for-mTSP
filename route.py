@@ -8,12 +8,12 @@ class Route:
         self.route = []
         self.fitness = 0
         self.distance = 0
-        '''
+
         if route == None:
             for i in range(RouteManager.numberOfDustbins()):
-                self.route.append(None)
-        '''
-        if not(route == None):
+                self.route.append(Dustbin(-1,-1))
+
+        else:
             self.route = route
 
     def generateIndividual (self):
@@ -26,7 +26,8 @@ class Route:
         return self.route[index]
 
     def setDustbin(self, index, db):
-        self.route.insert(index, db)
+        self.route[index] = db
+        #self.route.insert(index, db)
         self.fitness = 0
         self.distance = 0
 

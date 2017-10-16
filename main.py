@@ -66,6 +66,7 @@ print ('Initial distance: ' + str(pop.getFittest().getDistance()))
 
 pop = GA.evolvePopulation(pop)
 
-print ('New distance: ' + pop.getFittest().getDistance())
-#for i in range(100):
-    #pop = GA.evolvePopulation(pop)
+print ('New distance: ' + str(pop.getFittest().getDistance()))
+for i in range(100):
+    pop = GA.evolvePopulation(pop)
+    print ('New distance: ' + str(pop.getFittest().getDistance()))

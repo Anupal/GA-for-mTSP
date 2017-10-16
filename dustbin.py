@@ -29,3 +29,8 @@ class Dustbin:
 	def toString (self):
 		s =  '(' + str(self.getX()) + ',' + str(self.getY()) + ')'
 		return s
+	def checkNull(self):
+		if self.x == -1:
+			return True
+		else:
+			return False

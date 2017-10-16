@@ -22,7 +22,7 @@ class GA:
             child = cls.crossover(parent1, parent2)
             newPopulation.saveRoute(i, child)
 
-        for i in range(elitismOffset, newPopulation.populationSize()):
+        for i in range(elitismOffset, newPopulation.populationSize):
             cls.mutate(newPopulation.getRoute(i))
 
         return newPopulation
@@ -30,8 +30,13 @@ class GA:
     @classmethod
     def crossover(cls, parent1, parent2):
         child = Route()
-        startPos = random.randint(0, parent1.routeSize()-1)
-        endPos = random.randint(0, parent2.routeSize()-1)
+        startPos = 0
+        endPos = 0
+        while (startPos == endPos):
+            startPos = random.randint(0, parent1.routeSize()-1)
+            endPos = random.randint(0, parent2.routeSize()-1)
+
+        #print (str(startPos) + ' , ' + str(endPos))
 
         for i in range(child.routeSize()):
             if startPos < endPos and i > startPos and i < endPos:
@@ -40,17 +45,19 @@ class GA:
             elif startPos > endPos:
                 if not(i < startPos and i > endPos):
                     child.setDustbin(i, parent1.getDustbin(i))
-        print ('P1: ' + parent1.toString())
-        print ('P2: ' + parent2.toString())
+        #print ('P1: ' + parent1.toString())
+        #print ('P2: ' + parent2.toString())
+        #print ('Mid stage child: ' + child.toString())
+
         #print('P2 rs:' + str(parent2.routeSize()))
         for i in range(parent2.routeSize()):
             if not(child.containsDustbin(parent2.getDustbin(i))):
                 for i1 in range(child.routeSize()):
-                    if child.getDustbin(i1) == None:
+                    if child.getDustbin(i1).checkNull():
                         child.setDustbin(i1, parent2.getDustbin(i))
                         break
 
-        print ('C: ' + child.toString())
+        #print ('C: ' + child.toString())
         return child
 
     @classmethod
