@@ -2,20 +2,22 @@ from routemanager import *
 
 class Route:
 
-    route = []
-    fitness = 0
-    distance = 0
+
 
     def __init__ (self, route = None):
-
+        self.route = []
+        self.fitness = 0
+        self.distance = 0
+        '''
         if route == None:
-            for i in range(20):
+            for i in range(RouteManager.numberOfDustbins()):
                 self.route.append(None)
-        else:
+        '''
+        if not(route == None):
             self.route = route
 
     def generateIndividual (self):
-        for dindex in range(20):
+        for dindex in range(RouteManager.numberOfDustbins()):
             self.setDustbin(dindex, RouteManager.getDustbin(dindex))
 
         random.shuffle(self.route)
@@ -45,7 +47,7 @@ class Route:
                     destinationDustbin = self.getDustbin(dindex + 1)
 
                 else:
-                    destinationDustbin = getDustbin(0)
+                    destinationDustbin = self.getDustbin(0)
 
                 routeDistance += fromDustbin.distanceTo(destinationDustbin)
 
@@ -58,15 +60,15 @@ class Route:
         return size
 
     def containsDustbin(self, db):
-        if db in route:
-            return true
+        if db in self.route:
+            return True
         else:
-            return false
+            return False
 
     def toString (self):
         geneString = '|'
 
-        for i in range(routeSize()):
-            geneString += getDustbin(i) + '|'
+        for i in range(self.routeSize()):
+            geneString += self.getDustbin(i).toString() + '|'
 
         return geneString

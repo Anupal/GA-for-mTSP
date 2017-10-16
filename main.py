@@ -62,12 +62,10 @@ dustbin20 = Dustbin(160, 20);
 RouteManager.addDustbin(dustbin20);
 
 pop = Population(50, True)
-print ('Initial distance: ' + str(pop.getFittest().getDistance())
+print ('Initial distance: ' + str(pop.getFittest().getDistance()))
 
-#pop = GA.evolvePopulation(pop)
-for i in range(100):
-    pop = GA.evolvePopulation(pop)
-print ('Finished')
-print ('Final distance: ' + pop.getFittest().getDistance())
-print ('Solution: ')
-print (pop.getFittest())
+pop = GA.evolvePopulation(pop)
+
+print ('New distance: ' + pop.getFittest().getDistance())
+#for i in range(100):
+    #pop = GA.evolvePopulation(pop)

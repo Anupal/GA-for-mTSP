@@ -12,5 +12,5 @@ class RouteManager:
         return cls.destinationDustbins[index]
 
     @classmethod
-    def numberOfDustbins(cls, self):
+    def numberOfDustbins(cls):
         return len(cls.destinationDustbins)

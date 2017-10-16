@@ -15,17 +15,17 @@ class Dustbin:
 			self.y = y
 
 	def getX (self):
-		return this.x
+		return self.x
 
 	def getY (self):
-		return this.y
+		return self.y
 
 	def distanceTo (self, db):
 		xDis = abs(self.getX() - db.getX())
 		yDis = abs(self.getY() - db.getY())
-		dis = math.sqrt((xDis*xDis), (yDis*yDis))
+		dis = math.sqrt((xDis*xDis) + (yDis*yDis))
 		return dis
 
 	def toString (self):
-		s =  '(' + str(getX()) + ',' + str(getY) + ')'
+		s =  '(' + str(self.getX()) + ',' + str(self.getY()) + ')'
 		return s
