@@ -16,5 +16,6 @@ p2.generateIndividual()
 print(p2.toString())
 
 child = GA.crossover(p1, p2)
+print (child.toString())
 GA.mutate(child)
 print (child.toString())

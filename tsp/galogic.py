@@ -62,15 +62,18 @@ class GA:
 
     @classmethod
     def mutate (cls, route):
-        for routePos in range(route.routeSize()):
-            if random.randrange(1) < cls.mutationRate:
-                routePos2 = random.randint(0, route.routeSize()-1)
+        routePos = 0
+        routePos2 = 0
+        while routePos == routePos2:
+            routePos2 = random.randint(0, route.routeSize()-1)
+            routePos2 = random.randint(0, route.routeSize()-1)
 
-                dustbin1 = route.getDustbin(routePos)
-                dustbin2 = route.getDustbin(routePos2)
+        if random.randrange(1) < cls.mutationRate:
+            dustbin1 = route.getDustbin(routePos)
+            dustbin2 = route.getDustbin(routePos2)
 
-                route.setDustbin(routePos2, dustbin1)
-                route.setDustbin(routePos, dustbin2)
+            route.setDustbin(routePos2, dustbin1)
+            route.setDustbin(routePos, dustbin2)
 
     @classmethod
     def tournamentSelection (cls, pop):
