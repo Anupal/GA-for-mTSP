@@ -15,7 +15,7 @@ mutationRate = 0.02
 tournamentSize = 10
 elitism = True
 # number of trucks
-numTrucks = 4
+numTrucks = 3
 
 def random_range(n, total):
     """Return a randomly chosen list of n positive integers summing to total.
