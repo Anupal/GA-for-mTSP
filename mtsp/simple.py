@@ -1,11 +1,10 @@
 from galogic import *
+import matplotlib.pyplot as plt
+import progressbar
+pbar = progressbar.ProgressBar()
 '''
-RouteManager.addDustbin(Dustbin(0,0))
-RouteManager.addDustbin(Dustbin(0,100))
-RouteManager.addDustbin(Dustbin(150,200))
-RouteManager.addDustbin(Dustbin(100,100))
-RouteManager.addDustbin(Dustbin(200,200))
-RouteManager.addDustbin(Dustbin(0,200))
+for i in range(numNodes):
+    RouteManager.addDustbin(Dustbin())
 '''
 RouteManager.addDustbin(Dustbin(60, 200))
 
@@ -46,26 +45,29 @@ RouteManager.addDustbin(Dustbin(20, 20));
 RouteManager.addDustbin(Dustbin(60, 20));
 
 RouteManager.addDustbin(Dustbin(160, 20));
-'''
-p1 = Route()
-p1.generateIndividual()
-print(p1.toString())
-GA.mutate(p1)
-print(p1.toString())
-#print(p1.getDistance())
-#print(p1.getFitness())
-'''
+random.seed(1)
+yaxis = []
+xaxis = []
 pop = Population(populationSize, True)
+globalRoute = pop.getFittest()
+print ('Initial minimum distance: ' + str(globalRoute.getDistance()))
 
-for i in range(100):
+for i in pbar(range(numGenerations)):
     pop = GA.evolvePopulation(pop)
-    fittest = pop.getFittest().getDistance()
-    print(fittest)
-    if fittest < 1050:
-        break
-print ('Final distance: ' + str(fittest))
-print ('Final Route: ' + pop.getFittest().toString())
+    localRoute = pop.getFittest()
+    if globalRoute.getDistance() > localRoute.getDistance():
+        globalRoute = localRoute
+    #print(fittest)
+    yaxis.append(localRoute.getDistance())
+    xaxis.append(i)
 
+print ('Global minimum distance: ' + str(globalRoute.getDistance()))
+print ('Final Route: ' + globalRoute.toString())
+
+fig = plt.figure()
+#plt.ylim(0, 80000)
+plt.plot(xaxis, yaxis, 'r-')
+plt.show()
 '''
 pop = Population(populationSize, True)
 

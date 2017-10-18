@@ -1,9 +1,6 @@
 from population import *
 
 class GA:
-    mutationRate = 0.015
-    tournamentSize = 5
-    elitism = True
 
     @classmethod
     def evolvePopulation(cls, pop):
@@ -12,13 +9,20 @@ class GA:
         newPopulation = Population(pop.populationSize, False)
 
         elitismOffset = 0
-        if cls.elitism:
+        if elitism:
             newPopulation.saveRoute(0, pop.getFittest())
             elitismOffset = 1
 
         # tournament selection
+        #for i in range(elitismOffset, populationSize):
+        #    newPopulation.saveRoute(i, cls.tournamentSelection(pop))
+
         for i in range(elitismOffset, newPopulation.populationSize):
-            newPopulation.saveRoute(i, cls.tournamentSelection(pop))
+            parent1 = cls.tournamentSelection(pop)
+            parent2 = cls.tournamentSelection(pop)
+            child = cls.crossover(parent1, parent2)
+            newPopulation.saveRoute(i, child)
+
 
         # mutate here
         for i in range(elitismOffset, newPopulation.populationSize):
@@ -26,7 +30,62 @@ class GA:
 
         return newPopulation
 
-    #TODO: Implement cross route mutation
+    @classmethod
+    def crossover (cls, parent1, parent2):
+        child = Route()
+        child.base.append(Dustbin(-1, -1)) # since size is 29 by default
+        startPos = 0
+        endPos = 0
+        while (startPos >= endPos):
+            startPos = random.randint(1, numNodes-1)
+            endPos = random.randint(1, numNodes-1)
+
+        #print(startPos, endPos)
+        parent1.base = [parent1.route[0][0]]
+        parent2.base = [parent2.route[0][0]]
+
+        for i in range(numTrucks):
+            for j in range(1, parent1.routeLengths[i]):
+                parent1.base.append(parent1.route[i][j])
+
+
+        for i in range(numTrucks):
+            for j in range(1, parent2.routeLengths[i]):
+                parent2.base.append(parent2.route[i][j])
+
+        #for b in parent1.base:
+        #    print(b.toString())
+
+        #print('YOLO')
+        #for b in parent2.base:
+        #    print(b.toString())
+
+        for i in range(1, numNodes):
+            if i > startPos and i < endPos:
+                child.base[i] = parent1.base[i]
+
+        for i in range(numNodes):
+            if not(child.containsDustbin(parent2.base[i])):
+                for i1 in range(numNodes):
+                    if child.base[i1].checkNull():
+                        child.base[i1] =  parent2.base[i]
+                        break
+        #print('YOLO')
+        #for b in child.base:
+        #    print(b.toString())
+        k=0
+        #print('----')
+        #print(len(child.base))
+        child.base.pop(0)
+        for i in range(numTrucks):
+            child.route[i].append(RouteManager.getDustbin(0)) # add same first node for each route
+            for j in range(child.routeLengths[i]-1):
+                child.route[i].append(child.base[k]) # add shuffled values for rest
+                k+=1
+        #print(parent1.toString())
+        #print(parent2.toString())
+        #print(child.toString())
+        return child
     @classmethod
     def mutate (cls, route):
         index1 = 0
@@ -54,7 +113,7 @@ class GA:
         swap1 = [] # values from 1
         swap2 = [] # values from 2
 
-        if random.randrange(1) < cls.mutationRate:
+        if random.randrange(1) < mutationRate:
             # pop all the values to be replaced
             for i in range(route1startPos, route1lastPos + 1):
                 swap1.append(route.route[index1].pop(route1startPos))
@@ -82,9 +141,9 @@ class GA:
 
     @classmethod
     def tournamentSelection (cls, pop):
-        tournament = Population(cls.tournamentSize, False)
+        tournament = Population(tournamentSize, False)
 
-        for i in range(cls.tournamentSize):
+        for i in range(tournamentSize):
             randomInt = random.randint(0, pop.populationSize-1)
             tournament.saveRoute(i, pop.getRoute(randomInt))
 

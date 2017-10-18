@@ -1,4 +1,5 @@
 from galogic import *
+import matplotlib.pyplot as plt
 
 #routeManager = RouteManager()
 
@@ -44,11 +45,19 @@ RouteManager.addDustbin(Dustbin(160, 20));
 
 pop = Population(50, True)
 print ('Initial distance: ' + str(pop.getFittest().getDistance()))
-
+yaxis = []
+xaxis = []
 for i in range(101):
     pop = GA.evolvePopulation(pop)
     fittest = pop.getFittest().getDistance()
+    yaxis.append(fittest)
+    xaxis.append(i)
     if fittest < 1050:
         break
 print ('Final distance: ' + str(fittest))
 print ('Final Route: ' + pop.getFittest().toString())
+
+fig = plt.figure()
+#plt.ylim(0, 80000)
+plt.plot(xaxis, yaxis, 'r-')
+plt.show()
