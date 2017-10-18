@@ -42,7 +42,7 @@ RouteManager.addDustbin(Dustbin(60, 20));
 
 RouteManager.addDustbin(Dustbin(160, 20));
 
-pop = Population(50, True)
+pop = Population(populationSize, True)
 print ('Initial distance: ' + str(pop.getFittest().getDistance()))
 
 for i in range(101):

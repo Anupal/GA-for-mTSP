@@ -6,27 +6,41 @@ class Route:
 
     def __init__ (self, route = None):
         self.route = []
+        self.base = []
+        self.routeLengths = [1, 2]
+        while 1 in self.routeLengths or 2 in self.routeLengths or 3 in self.routeLengths:
+            self.routeLengths = route_lengths(numTrucks, RouteManager.numberOfDustbins() + numTrucks - 1)
+
+        for i in range(numTrucks):
+            self.route.append([])
         self.fitness = 0
         self.distance = 0
 
         if route == None:
-            for i in range(RouteManager.numberOfDustbins()):
-                self.route.append(Dustbin(-1,-1))
+            for i in range(RouteManager.numberOfDustbins()-1):
+                self.base.append(Dustbin(-1,-1))
 
         else:
             self.route = route
 
     def generateIndividual (self):
-        for dindex in range(RouteManager.numberOfDustbins()):
-            self.setDustbin(dindex, RouteManager.getDustbin(dindex))
+        k=0
+        for dindex in range(1, RouteManager.numberOfDustbins()):
+            self.base[dindex-1] = RouteManager.getDustbin(dindex)
 
-        random.shuffle(self.route)
+        random.shuffle(self.base)
+        for i in range(numTrucks):
+            self.route[i].append(RouteManager.getDustbin(0))
+            for j in range(self.routeLengths[i]-1):
+                self.route[i].append(self.base[k])
+                k+=1
 
-    def getDustbin(self, index):
-        return self.route[index]
 
-    def setDustbin(self, index, db):
-        self.route[index] = db
+    def getDustbin(self, i, j):
+        return self.route[i][j]
+
+    def setDustbin(self, i, j, db):
+        self.route[i][j] = db
         #self.route.insert(index, db)
         self.fitness = 0
         self.distance = 0
@@ -41,24 +55,20 @@ class Route:
         if self.distance == 0:
             routeDistance = 0
 
-            for dindex in range(self.routeSize()):
-                fromDustbin = self.getDustbin(dindex)
+            for i in range(numTrucks):
+                for j in range(self.routeLengths[i]):
+                    fromDustbin = self.getDustbin(i, j)
 
-                if dindex+1 < self.routeSize():
-                    destinationDustbin = self.getDustbin(dindex + 1)
+                    if j+1 < self.routeLengths[i]:
+                        destinationDustbin = self.getDustbin(i, j + 1)
 
-                else:
-                    destinationDustbin = self.getDustbin(0)
+                    else:
+                        destinationDustbin = self.getDustbin(i, 0)
 
-                routeDistance += fromDustbin.distanceTo(destinationDustbin)
+                    routeDistance += fromDustbin.distanceTo(destinationDustbin)
 
-            distance =  routeDistance
-
+        distance =  routeDistance
         return routeDistance
-
-    def routeSize(self):
-        size = len(self.route)
-        return size
 
     def containsDustbin(self, db):
         if db in self.route:
@@ -68,8 +78,12 @@ class Route:
 
     def toString (self):
         geneString = '|'
-
-        for i in range(self.routeSize()):
-            geneString += self.getDustbin(i).toString() + '|'
+        print (self.routeLengths)
+        #for k in range(RouteManager.numberOfDustbins()-1):
+        #    print (self.base[k].toString())
+        for i in range(numTrucks):
+            for j in range(self.routeLengths[i]):
+                geneString += self.getDustbin(i,j).toString() + '|'
+            geneString += '\n'
 
         return geneString

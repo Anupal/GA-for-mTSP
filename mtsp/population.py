@@ -10,7 +10,6 @@ class Population:
                 newRoute = Route()
                 newRoute.generateIndividual()
                 self.routes.append(newRoute)
-                #self.saveRoute(i, newRoute)
 
     def saveRoute (self, index, route):
         self.routes[index] = route

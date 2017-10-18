@@ -1,8 +1,4 @@
-import random
-import math
-
-xMax = 200
-yMax = 200
+from globals import *
 
 class Dustbin:
 
