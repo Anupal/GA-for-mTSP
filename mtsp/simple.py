@@ -46,12 +46,34 @@ RouteManager.addDustbin(Dustbin(20, 20));
 RouteManager.addDustbin(Dustbin(60, 20));
 
 RouteManager.addDustbin(Dustbin(160, 20));
-
+'''
 p1 = Route()
 p1.generateIndividual()
 print(p1.toString())
-print(p1.getDistance())
-print(p1.getFitness())
+GA.mutate(p1)
+print(p1.toString())
+#print(p1.getDistance())
+#print(p1.getFitness())
+'''
+pop = Population(populationSize, True)
+
+for i in range(100):
+    pop = GA.evolvePopulation(pop)
+    fittest = pop.getFittest().getDistance()
+    print(fittest)
+    if fittest < 1050:
+        break
+print ('Final distance: ' + str(fittest))
+print ('Final Route: ' + pop.getFittest().toString())
+
+'''
+pop = Population(populationSize, True)
+
+for i in range(populationSize):
+    print(pop.getRoute(i).toString())
+    print(pop.getRoute(i).getDistance())
+    print(pop.getRoute(i).getFitness())
+'''
 
 #p2 = Route()
 #p2.generateIndividual()

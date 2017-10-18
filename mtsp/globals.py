@@ -8,10 +8,10 @@ xMax = 200
 yMax = 200
 
 # size of population
-populationSize = 50
+populationSize = 5
 
 # number of trucks
-numTrucks = 3
+numTrucks = 5
 
 def route_lengths(n, total):
     """Return a randomly chosen list of n positive integers summing to total.
