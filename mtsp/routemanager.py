@@ -1,3 +1,7 @@
+'''
+Holds all the dustbin objects and is used for
+creation of chromosomes by jumbling their sequence
+'''
 from dustbin import *
 
 class RouteManager:

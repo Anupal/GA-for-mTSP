@@ -1,46 +1,49 @@
+'''
+The main helper class for Genetic Algorithm to perform
+crossover, mutation on populations to evolve them
+'''
 from population import *
 
 class GA:
 
     @classmethod
+    # Evolve pop
     def evolvePopulation(cls, pop):
-        #print (RouteManager.getDustbin(3).toString())
 
         newPopulation = Population(pop.populationSize, False)
 
         elitismOffset = 0
+        # If fittest chromosome has to be passed directly to next generation
         if elitism:
             newPopulation.saveRoute(0, pop.getFittest())
             elitismOffset = 1
 
-        # tournament selection
-        #for i in range(elitismOffset, populationSize):
-        #    newPopulation.saveRoute(i, cls.tournamentSelection(pop))
-
+        # Performs tournament selection followed by crossover to generate child
         for i in range(elitismOffset, newPopulation.populationSize):
             parent1 = cls.tournamentSelection(pop)
             parent2 = cls.tournamentSelection(pop)
             child = cls.crossover(parent1, parent2)
+            # Adds child to next generation
             newPopulation.saveRoute(i, child)
 
 
-        # mutate here
+        # Performs Mutation
         for i in range(elitismOffset, newPopulation.populationSize):
             cls.mutate(newPopulation.getRoute(i))
 
         return newPopulation
 
+    # Function to implement crossover operation
     @classmethod
     def crossover (cls, parent1, parent2):
         child = Route()
-        child.base.append(Dustbin(-1, -1)) # since size is 29 by default
+        child.base.append(Dustbin(-1, -1)) # since size is (numNodes - 1) by default
         startPos = 0
         endPos = 0
         while (startPos >= endPos):
             startPos = random.randint(1, numNodes-1)
             endPos = random.randint(1, numNodes-1)
 
-        #print(startPos, endPos)
         parent1.base = [parent1.route[0][0]]
         parent2.base = [parent2.route[0][0]]
 
@@ -53,13 +56,6 @@ class GA:
             for j in range(1, parent2.routeLengths[i]):
                 parent2.base.append(parent2.route[i][j])
 
-        #for b in parent1.base:
-        #    print(b.toString())
-
-        #print('YOLO')
-        #for b in parent2.base:
-        #    print(b.toString())
-
         for i in range(1, numNodes):
             if i > startPos and i < endPos:
                 child.base[i] = parent1.base[i]
@@ -70,22 +66,17 @@ class GA:
                     if child.base[i1].checkNull():
                         child.base[i1] =  parent2.base[i]
                         break
-        #print('YOLO')
-        #for b in child.base:
-        #    print(b.toString())
+
         k=0
-        #print('----')
-        #print(len(child.base))
         child.base.pop(0)
         for i in range(numTrucks):
             child.route[i].append(RouteManager.getDustbin(0)) # add same first node for each route
             for j in range(child.routeLengths[i]-1):
                 child.route[i].append(child.base[k]) # add shuffled values for rest
                 k+=1
-        #print(parent1.toString())
-        #print(parent2.toString())
-        #print(child.toString())
         return child
+
+    # Mutation opeeration
     @classmethod
     def mutate (cls, route):
         index1 = 0
@@ -123,15 +114,7 @@ class GA:
 
             del1 = (route1lastPos - route1startPos + 1)
             del2 = (route2lastPos - route2startPos + 1)
-            '''
-            print('After removal: \n' + route.toString())
-            print('swap1')
-            for i in swap1:
-                print(i.toString())
-            print('swap2')
-            for i in swap2:
-                print(i.toString())
-            '''
+
             # add to new location by pushing
             route.route[index1][route1startPos:route1startPos] = swap2
             route.route[index2][route2startPos:route2startPos] = swap1
@@ -139,6 +122,7 @@ class GA:
             route.routeLengths[index1] = len(route.route[index1])
             route.routeLengths[index2] = len(route.route[index2])
 
+    # Tournament Selection: choose a random set of chromosomes and find the fittest among them 
     @classmethod
     def tournamentSelection (cls, pop):
         tournament = Population(tournamentSize, False)
