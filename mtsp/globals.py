@@ -1,4 +1,5 @@
 import random
+import pandas as pd
 import math
 '''
 Contains all global variables specific to simulation
@@ -7,15 +8,27 @@ Contains all global variables specific to simulation
 xMax = 1000
 yMax = 1000
 seedValue = 1
-numNodes = 200
-numGenerations = 70
+# numNodes = 51
+numGenerations = 200
 # size of population
 populationSize = 100
 mutationRate = 0.02
 tournamentSize = 10
 elitism = True
 # number of trucks
-numTrucks = 10
+numTrucks = 5
+
+# city_list =pd.read_csv("pr76.txt",sep=" ",header=0,names=['id','X','Y'])
+# city_list =pd.read_csv("pr152.txt",sep=" ",header=0,names=['id','X','Y'])
+city_list =pd.read_csv("pr226.txt",sep=" ",header=0,names=['id','X','Y'])
+# city_list =pd.read_csv("mtsp51.txt",sep=" ",header=0,names=['id','X','Y'])
+# city_list =pd.read_csv("mtsp100.txt",sep=" ",header=0,names=['id','X','Y'])
+# city_list =pd.read_csv("mtsp150.txt",sep=" ",header=0,names=['id','X','Y'])
+
+numNodes = len(city_list)
+X = city_list['X'].tolist()
+Y = city_list['Y'].tolist()
+
 
 def random_range(n, total):
     """Return a randomly chosen list of n positive integers summing to total.

@@ -1,11 +1,14 @@
 from galogic import *
 import matplotlib.pyplot as plt
 import progressbar
+import pandas as pd
+import time
 pbar = progressbar.ProgressBar()
 
+tic = time.time()
 # Add Dustbins
 for i in range(numNodes):
-    RouteManager.addDustbin(Dustbin())
+    RouteManager.addDustbin(Dustbin(X[i],Y[i]))
 
 random.seed(seedValue)
 yaxis = [] # Fittest value (distance)
@@ -23,9 +26,11 @@ for i in pbar(range(numGenerations)):
         globalRoute = localRoute
     yaxis.append(localRoute.getDistance())
     xaxis.append(i)
+toc = time.time()
+print("Time cost:",round(toc-tic,2))
 
 print ('Global minimum distance: ' + str(globalRoute.getDistance()))
-print ('Final Route: ' + globalRoute.toString())
+print ('Final Route:\n' + globalRoute.toString())
 
 fig = plt.figure()
 

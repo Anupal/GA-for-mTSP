@@ -68,7 +68,9 @@ class GA:
             routePos2 = random.randint(0, route.routeSize()-1)
             routePos2 = random.randint(0, route.routeSize()-1)
 
+        # if random.randrange(1) < cls.mutationRate:
         if random.randrange(1) < cls.mutationRate:
+
             dustbin1 = route.getDustbin(routePos)
             dustbin2 = route.getDustbin(routePos2)
 
